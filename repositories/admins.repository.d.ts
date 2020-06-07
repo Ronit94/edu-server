@@ -1,7 +1,7 @@
-import { DefaultCrudRepository, BelongsToAccessor } from '@loopback/repository';
-import { Admins, AdminsRelations, AdminDetails } from '../models';
-import { EducareDataSource } from '../datasources';
 import { Getter } from '@loopback/core';
+import { BelongsToAccessor, DefaultCrudRepository } from '@loopback/repository';
+import { EducareDataSource } from '../datasources';
+import { AdminDetails, Admins, AdminsRelations } from '../models';
 import { AdminDetailsRepository } from './admin-details.repository';
 export declare class AdminsRepository extends DefaultCrudRepository<Admins, typeof Admins.prototype.AdminEmail, AdminsRelations> {
     protected adminDetailsRepositoryGetter: Getter<AdminDetailsRepository>;

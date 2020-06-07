@@ -53,9 +53,12 @@ let AdminController = /** @class */ (() => {
             }
         }
         async updateById(id, admins) {
+            admins.adminPassword = await this.passwordHasher.hashPassword(admins.adminPassword);
             await this.adminsRepository.updateById(id, admins);
         }
         async replaceById(id, admins) {
+            admins.createdAt = new Date().toLocaleString();
+            admins.updatedAt = new Date().toLocaleString();
             await this.adminsRepository.replaceById(id, admins);
         }
         async deleteById(id) {
@@ -64,7 +67,11 @@ let AdminController = /** @class */ (() => {
         async getProfile(filter) {
             const token = this.jwtService.extractCredentials(this.request);
             const userProfile = await this.jwtService.verifyToken(token);
-            return this.adminsRepository.findById(userProfile[security_1.securityId]);
+            let adminResponse = await this.adminsRepository.findById(userProfile[security_1.securityId], { include: [{ relation: 'AdminRelation' }] });
+            delete (await adminResponse).College_ID;
+            delete (await adminResponse).adminPassword;
+            delete (await adminResponse).adminDetailsId;
+            return adminResponse;
         }
     };
     tslib_1.__decorate([
@@ -199,7 +206,16 @@ let AdminController = /** @class */ (() => {
         }),
         authentication_1.authenticate('jwt'),
         tslib_1.__param(0, rest_1.param.path.string('id')),
-        tslib_1.__param(1, rest_1.requestBody()),
+        tslib_1.__param(1, rest_1.requestBody({
+            content: {
+                'application/json': {
+                    schema: rest_1.getModelSchemaRef(models_1.Admins, {
+                        title: 'NewAdmins',
+                        exclude: ['College_ID', 'createdAt', 'updatedAt', 'adminPassword'],
+                    }),
+                },
+            },
+        })),
         tslib_1.__metadata("design:type", Function),
         tslib_1.__metadata("design:paramtypes", [String, models_1.Admins]),
         tslib_1.__metadata("design:returntype", Promise)
