@@ -23,9 +23,17 @@ let AdminController = /** @class */ (() => {
         async create(admins) {
             admins.adminPassword = await this.passwordHasher.hashPassword(admins.adminPassword);
             admins.College_ID = await this.passwordHasher.createCollegeID(admins.College_Name, admins.College_state);
-            let adminResponse = await this.adminsRepository.create(admins);
-            delete (await adminResponse).adminPassword;
-            return adminResponse;
+            console.log(admins.College_ID);
+            let alreadyExist = await this.adminsRepository.findOne({ where: { College_ID: admins.College_ID } });
+            console.log(alreadyExist);
+            if (alreadyExist) {
+                throw new rest_1.HttpErrors.UnprocessableEntity('College data already exists');
+            }
+            else {
+                let adminResponse = await this.adminsRepository.create(admins);
+                delete (await adminResponse).adminPassword;
+                return adminResponse;
+            }
         }
         async count(where) {
             return this.adminsRepository.count(where);
