@@ -52,6 +52,7 @@ let JWTService = /** @class */ (() => {
             };
             // Generate a JSON Web Token
             let token;
+            this.jwtExpiresIn = '3600';
             try {
                 token = await signAsync(userInfoForToken, this.jwtSecret, {
                     expiresIn: Number(this.jwtExpiresIn),

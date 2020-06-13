@@ -4,6 +4,9 @@ exports.Admins = void 0;
 const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
 const admin_details_model_1 = require("./admin-details.model");
+const projects_model_1 = require("./projects.model");
+const students_model_1 = require("./students.model");
+const followers_model_1 = require("./followers.model");
 let Admins = /** @class */ (() => {
     let Admins = class Admins extends repository_1.Entity {
         constructor(data) {
@@ -88,6 +91,18 @@ let Admins = /** @class */ (() => {
         repository_1.belongsTo(() => admin_details_model_1.AdminDetails, { name: 'AdminRelation' }),
         tslib_1.__metadata("design:type", String)
     ], Admins.prototype, "adminDetailsId", void 0);
+    tslib_1.__decorate([
+        repository_1.hasMany(() => projects_model_1.Projects),
+        tslib_1.__metadata("design:type", Array)
+    ], Admins.prototype, "projects", void 0);
+    tslib_1.__decorate([
+        repository_1.hasMany(() => students_model_1.Students),
+        tslib_1.__metadata("design:type", Array)
+    ], Admins.prototype, "students", void 0);
+    tslib_1.__decorate([
+        repository_1.hasMany(() => followers_model_1.Followers),
+        tslib_1.__metadata("design:type", Array)
+    ], Admins.prototype, "followers", void 0);
     Admins = tslib_1.__decorate([
         repository_1.model({ settings: {} }),
         tslib_1.__metadata("design:paramtypes", [Object])

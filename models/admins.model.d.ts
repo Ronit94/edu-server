@@ -1,4 +1,7 @@
 import { Entity } from '@loopback/repository';
+import { Projects } from './projects.model';
+import { Students } from './students.model';
+import { Followers } from './followers.model';
 export declare class Admins extends Entity {
     College_ID: string;
     College_Name: string;
@@ -11,6 +14,9 @@ export declare class Admins extends Entity {
     createdAt: string;
     updatedAt: string;
     adminDetailsId: string;
+    projects: Projects[];
+    students: Students[];
+    followers: Followers[];
     [prop: string]: any;
     constructor(data?: Partial<Admins>);
 }
