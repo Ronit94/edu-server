@@ -60,14 +60,20 @@ let AdminController = /** @class */ (() => {
                 throw new rest_1.HttpErrors.NotFound(`User is not exists in Application`);
             }
         }
-        async updateById(id, admins) {
-            admins.adminPassword = await this.passwordHasher.hashPassword(admins.adminPassword);
-            await this.adminsRepository.updateById(id, admins);
+        async updateById(admins) {
+            const token = this.jwtService.extractCredentials(this.request);
+            const userProfile = await this.jwtService.verifyToken(token);
+            if (admins.adminPassword)
+                admins.adminPassword = await this.passwordHasher.hashPassword(admins.adminPassword);
+            if (!admins.College_ID)
+                admins.College_ID = await this.passwordHasher.createCollegeID(admins.College_Name, admins.College_state);
+            await this.adminsRepository.updateById(userProfile[security_1.securityId], admins);
         }
-        async replaceById(id, admins) {
-            admins.createdAt = new Date().toLocaleString();
-            admins.updatedAt = new Date().toLocaleString();
-            await this.adminsRepository.replaceById(id, admins);
+        async replaceById(admins) {
+            admins.College_ID = await this.passwordHasher.createCollegeID(admins.College_Name, admins.College_state);
+            const token = this.jwtService.extractCredentials(this.request);
+            const userProfile = await this.jwtService.verifyToken(token);
+            await this.adminsRepository.replaceById(userProfile[security_1.securityId], admins);
         }
         async deleteById(id) {
             await this.adminsRepository.deleteById(id);
@@ -184,7 +190,7 @@ let AdminController = /** @class */ (() => {
         tslib_1.__metadata("design:returntype", Promise)
     ], AdminController.prototype, "login", null);
     tslib_1.__decorate([
-        rest_1.patch('/admins/{id}', {
+        rest_1.patch('/admins', {
             responses: {
                 '204': {
                     description: 'Admins PATCH success',
@@ -192,8 +198,7 @@ let AdminController = /** @class */ (() => {
             },
         }),
         authentication_1.authenticate('jwt'),
-        tslib_1.__param(0, rest_1.param.path.string('id')),
-        tslib_1.__param(1, rest_1.requestBody({
+        tslib_1.__param(0, rest_1.requestBody({
             content: {
                 'application/json': {
                     schema: rest_1.getModelSchemaRef(models_1.Admins, { partial: true }),
@@ -201,11 +206,11 @@ let AdminController = /** @class */ (() => {
             },
         })),
         tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [String, models_1.Admins]),
+        tslib_1.__metadata("design:paramtypes", [models_1.Admins]),
         tslib_1.__metadata("design:returntype", Promise)
     ], AdminController.prototype, "updateById", null);
     tslib_1.__decorate([
-        rest_1.put('/admins/{id}', {
+        rest_1.put('/admins', {
             responses: {
                 '204': {
                     description: 'Admins PUT success',
@@ -213,19 +218,15 @@ let AdminController = /** @class */ (() => {
             },
         }),
         authentication_1.authenticate('jwt'),
-        tslib_1.__param(0, rest_1.param.path.string('id')),
-        tslib_1.__param(1, rest_1.requestBody({
+        tslib_1.__param(0, rest_1.requestBody({
             content: {
                 'application/json': {
-                    schema: rest_1.getModelSchemaRef(models_1.Admins, {
-                        title: 'NewAdmins',
-                        exclude: ['College_ID', 'createdAt', 'updatedAt', 'adminPassword'],
-                    }),
+                    schema: rest_1.getModelSchemaRef(models_1.Admins, { exclude: ['adminPassword', 'College_ID'] }),
                 },
             },
         })),
         tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [String, models_1.Admins]),
+        tslib_1.__metadata("design:paramtypes", [models_1.Admins]),
         tslib_1.__metadata("design:returntype", Promise)
     ], AdminController.prototype, "replaceById", null);
     tslib_1.__decorate([

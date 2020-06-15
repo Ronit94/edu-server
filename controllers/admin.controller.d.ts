@@ -16,8 +16,8 @@ export declare class AdminController {
     find(filter?: Filter<Admins>): Promise<Admins[]>;
     updateAll(admins: Admins, where?: Where<Admins>): Promise<Count>;
     login(admins: Admins, filter?: FilterExcludingWhere<Admins>): Promise<any>;
-    updateById(id: string, admins: Admins): Promise<void>;
-    replaceById(id: string, admins: Admins): Promise<void>;
+    updateById(admins: Admins): Promise<void>;
+    replaceById(admins: Admins): Promise<void>;
     deleteById(id: string): Promise<void>;
     getProfile(filter?: Filter<Admins>): Promise<Admins>;
 }

@@ -46,7 +46,7 @@ let Followers = /** @class */ (() => {
         tslib_1.__metadata("design:type", String)
     ], Followers.prototype, "adminsId", void 0);
     Followers = tslib_1.__decorate([
-        repository_1.model({ settings: { strict: false } }),
+        repository_1.model(),
         tslib_1.__metadata("design:paramtypes", [Object])
     ], Followers);
     return Followers;

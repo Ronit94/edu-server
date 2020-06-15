@@ -4,9 +4,9 @@ exports.Admins = void 0;
 const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
 const admin_details_model_1 = require("./admin-details.model");
+const followers_model_1 = require("./followers.model");
 const projects_model_1 = require("./projects.model");
 const students_model_1 = require("./students.model");
-const followers_model_1 = require("./followers.model");
 let Admins = /** @class */ (() => {
     let Admins = class Admins extends repository_1.Entity {
         constructor(data) {

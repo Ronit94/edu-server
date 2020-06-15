@@ -1,7 +1,7 @@
 import { Entity } from '@loopback/repository';
+import { Followers } from './followers.model';
 import { Projects } from './projects.model';
 import { Students } from './students.model';
-import { Followers } from './followers.model';
 export declare class Admins extends Entity {
     College_ID: string;
     College_Name: string;
