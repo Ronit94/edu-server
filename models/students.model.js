@@ -42,16 +42,37 @@ let Students = /** @class */ (() => {
     tslib_1.__decorate([
         repository_1.property({
             type: 'string',
+            required: true,
         }),
         tslib_1.__metadata("design:type", String)
-    ], Students.prototype, "College_ID", void 0);
+    ], Students.prototype, "StudentMobile", void 0);
     tslib_1.__decorate([
         repository_1.property({
             type: 'string',
             required: true,
         }),
         tslib_1.__metadata("design:type", String)
-    ], Students.prototype, "AdminEmail", void 0);
+    ], Students.prototype, "Gender", void 0);
+    tslib_1.__decorate([
+        repository_1.property({
+            type: 'string',
+            required: true,
+        }),
+        tslib_1.__metadata("design:type", Number)
+    ], Students.prototype, "Semester", void 0);
+    tslib_1.__decorate([
+        repository_1.property({
+            type: 'string',
+            required: true,
+        }),
+        tslib_1.__metadata("design:type", Number)
+    ], Students.prototype, "Year", void 0);
+    tslib_1.__decorate([
+        repository_1.property({
+            type: 'string',
+        }),
+        tslib_1.__metadata("design:type", String)
+    ], Students.prototype, "College_ID", void 0);
     tslib_1.__decorate([
         repository_1.property({
             type: 'string',

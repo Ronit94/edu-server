@@ -4,8 +4,11 @@ export declare class Students extends Entity {
     StudentsEmail: string;
     College_Name: string;
     College_state: string;
+    StudentMobile: string;
+    Gender: string;
+    Semester: number;
+    Year: number;
     College_ID?: string;
-    AdminEmail: string;
     adminsId?: string;
     constructor(data?: Partial<Students>);
 }

@@ -19,9 +19,23 @@ let AdminsStudentsController = /** @class */ (() => {
             this.passwordHasher = passwordHasher;
             this.request = request;
         }
-        async find(filter) {
+        async find(
+        //@param.query.object('filter') filter?: Filter<Students>,
+        offset, limit, order, sortOrder, Gender) {
+            let filter = {};
             const token = this.jwtService.extractCredentials(this.request);
             const userProfile = await this.jwtService.verifyToken(token);
+            filter.limit = limit;
+            filter.offset = offset;
+            if (Gender) {
+                filter.where = { 'Gender': Gender };
+            }
+            if (sortOrder != 'null' && order != 'null') {
+                sortOrder = sortOrder === 'ascend' ? 'asc' : 'desc';
+                filter.order = [
+                    `${order} ${sortOrder}`
+                ];
+            }
             return this.adminsRepository.students(userProfile[security_1.securityId]).find(filter);
         }
         async create(students) {
@@ -55,9 +69,13 @@ let AdminsStudentsController = /** @class */ (() => {
             },
         }),
         authentication_1.authenticate('jwt'),
-        tslib_1.__param(0, rest_1.param.query.object('filter')),
+        tslib_1.__param(0, rest_1.param.query.integer('offset')),
+        tslib_1.__param(1, rest_1.param.query.integer('limit')),
+        tslib_1.__param(2, rest_1.param.query.string('order')),
+        tslib_1.__param(3, rest_1.param.query.string('sortOrder')),
+        tslib_1.__param(4, rest_1.param.query.string('Gender')),
         tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [Object]),
+        tslib_1.__metadata("design:paramtypes", [Number, Number, String, String, String]),
         tslib_1.__metadata("design:returntype", Promise)
     ], AdminsStudentsController.prototype, "find", null);
     tslib_1.__decorate([
@@ -73,9 +91,7 @@ let AdminsStudentsController = /** @class */ (() => {
         tslib_1.__param(0, rest_1.requestBody({
             content: {
                 'application/json': {
-                    schema: rest_1.getModelSchemaRef(models_1.Students, {
-                        title: 'NewStudentsInAdmins'
-                    }),
+                    schema: rest_1.getModelSchemaRef(models_1.Students, { partial: true }),
                 },
             },
         })),

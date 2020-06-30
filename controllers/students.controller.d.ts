@@ -1,9 +1,15 @@
+/// <reference types="express" />
 import { Count, Filter, FilterExcludingWhere, Where } from '@loopback/repository';
+import { Request } from '@loopback/rest';
 import { Students } from '../models';
 import { StudentsRepository } from '../repositories';
+import { JWTService, PasswordHasher } from '../services';
 export declare class StudentsController {
     studentsRepository: StudentsRepository;
-    constructor(studentsRepository: StudentsRepository);
+    jwtService: JWTService;
+    passwordHasher: PasswordHasher;
+    request: Request;
+    constructor(studentsRepository: StudentsRepository, jwtService: JWTService, passwordHasher: PasswordHasher, request: Request);
     create(students: Students): Promise<Students>;
     count(where?: Where<Students>): Promise<Count>;
     find(filter?: Filter<Students>): Promise<Students[]>;

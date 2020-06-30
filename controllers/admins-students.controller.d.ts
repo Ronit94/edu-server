@@ -1,5 +1,5 @@
 /// <reference types="express" />
-import { Count, Filter, Where } from '@loopback/repository';
+import { Count, Where } from '@loopback/repository';
 import { Request } from '@loopback/rest';
 import { Students } from '../models';
 import { AdminsRepository } from '../repositories';
@@ -10,7 +10,7 @@ export declare class AdminsStudentsController {
     passwordHasher: PasswordHasher;
     request: Request;
     constructor(adminsRepository: AdminsRepository, jwtService: JWTService, passwordHasher: PasswordHasher, request: Request);
-    find(filter?: Filter<Students>): Promise<Students[]>;
+    find(offset?: number, limit?: number, order?: string, sortOrder?: string, Gender?: string): Promise<Students[]>;
     create(students: Students): Promise<Students>;
     patch(students: Partial<Students>, where?: Where<Students>): Promise<Count>;
     delete(where?: Where<Students>): Promise<Count>;
